@@ -5,7 +5,6 @@ import BuildControls from '../../components/Burger/BuildControls/BuildControls';
 import _ from 'lodash';
 import Modal from '../../components/UI/Modal/Modal';
 import OrderSummary from '../../components/Burger/OrderSummary/OrderSummary';
-import aux from '../../hoc/Aux';
 
 const INGREDIENT_PRICES = {
     salad: 0.5,
