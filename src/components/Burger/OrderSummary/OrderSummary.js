@@ -1,15 +1,15 @@
  import React from 'react';
- import Aux from '../../../hoc/Aux';
+ import Aux from '../../../hoc/Aux/Aux';
  import Button from '../../UI/Button/Button';
 
 
- const orderSummary = (props) => {
-    const ingredientsSummary = props.ingredients;
+ const orderSummary = ({ingredients, price, purchaseCancel, purchaseContinue}) => {
+    const ingredientsSummary = ingredients;
         //Here we form the list of ingredients that will be shown in a Modal and will be updated dynamically...
     const ingredientsList = Object.keys(ingredientsSummary)
         .map((igKey) => {
             return <li key={igKey}>
-                <span style={{textTransform: 'capitalize'}}>{igKey}</span>: {props.ingredients[igKey]}
+                <span style={{textTransform: 'capitalize'}}>{igKey}</span>: {ingredients[igKey]}
             </li>
         });
     
@@ -20,10 +20,10 @@
             <ul>
                 {ingredientsList}
             </ul>
-            <p><strong>Total Price: {props.price.toFixed(2)}</strong></p>
+            <p><strong>Total Price: {price.toFixed(2)}</strong></p>
             <p>Continue to Checkout?</p>
-            <Button btnType='Danger' clicked={props.purchaseCancel}>CANCEL</Button>
-            <Button btnType='Success' clicked={props.purchaseContinue}>CONTINUE</Button>
+            <Button btnType='Danger' clicked={purchaseCancel}>CANCEL</Button>
+            <Button btnType='Success' clicked={purchaseContinue}>CONTINUE</Button>
         </Aux>
     ); 
 
