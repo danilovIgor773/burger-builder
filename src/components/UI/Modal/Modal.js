@@ -16,7 +16,7 @@ class Modal extends Component{
     }
     
     componentDidUpdate(){
-        console.log('[Modal] componentDidUpdate...');
+        console.log('[Modal] componentDidUpdate...');//Added temporarily to see how many times this cmp is rendered
         
     }
 
