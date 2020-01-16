@@ -11,7 +11,8 @@ class Modal extends Component{
     //The Modal triggers by the click on ORDER NOW btn, so when using the build ctrls, there is no need to unnecessary render the Modal 
 
     shouldComponentUpdate(nextProps, nextState){
-        return nextProps.show !== this.props.show;
+        //Added second condition via 'or' for spinner to be worked properly
+        return nextProps.show !== this.props.show || nextProps.children !== this.props.children; 
     }
     
     componentDidUpdate(){
@@ -36,4 +37,4 @@ class Modal extends Component{
 }
 }
 
-export default React.memo(Modal);
+export default Modal;
