@@ -4,10 +4,6 @@ import Layout from '../src/hoc/Layout/Layout';
 import BurgerBuilder from './containers/BurgerBuilder/BurgerBuilder'; 
 
 class App extends Component{
-  constructor(props){
-    super(props)
-    console.log("Props", props);
-  }
   
   render(){
     return (

@@ -21,16 +21,23 @@ const INGREDIENT_PRICES = {
 class BurgerBuilder extends Component{
 
     state = {
-        ingredients:{
-            salad: 0,
-            meat: 0,
-            cheese: 0,
-            bacon: 0
-        },
+        ingredients: null,
         totalPrice: 4,
         purchasable: false,
         purchasing: false,
-        showLoader: false
+        showLoader: false,
+        error: false
+    }
+
+    componentDidMount(){
+        //Retrieving data from server and updating state for our ingredients...
+        axios.get('https://burger-builder-f92a7.firebaseio.com/ingredients.json')
+            .then(response => {
+                this.setState({ingredients: response.data})
+            })
+            .catch(error => {
+                this.setState({error: true})
+            })
     }
 
     updatePurchaseButton (ingredients){
@@ -117,13 +124,34 @@ class BurgerBuilder extends Component{
             return flag;
         });
 
-        //Default value for order Summary before the request is sent...
-        let orderSummary = <OrderSummary 
+        //Defaults values before data will be retrieved from server...
+        let burger = (this.state.error ? 
+                    <h3 style={{textAlign: 'center', margin: '10px'}}>Service is unavailable! Please try again later!</h3> 
+                    : <Spinner />);
+        let orderSummary =  null;
+
+        if(this.state.ingredients){ //Checking if data is successfully retrieved from server..
+            burger = (
+                <Aux>
+                    <Burger ingredients={this.state.ingredients}/>
+                        <BuildControls 
+                            addIngredients={this.addIngredientsHandler}
+                            removeIngredients={this.removeIngredientHandler}
+                            disabled={disabledInfo}
+                            price={this.state.totalPrice}
+                            purchasable={this.state.purchasable}
+                            ordered={this.toggleModalHandler}
+                    />
+                </Aux>
+            );
+            //Setting orderSummary with retrieved ingredients from server..
+            orderSummary = <OrderSummary 
                             ingredients={this.state.ingredients}
                             purchaseCancel={this.purchaseCancelHandler}
                             purchaseContinue={this.purchaseContinueHandler}
                             price={this.state.totalPrice}
-                            /> ;
+                            />;
+        }
         
         if(this.state.showLoader){
             //add spinner...
@@ -135,15 +163,7 @@ class BurgerBuilder extends Component{
                 <Modal show={this.state.purchasing} modalClosed={this.purchaseCancelHandler}>
                     {orderSummary}
                 </Modal>
-                <Burger ingredients={this.state.ingredients}/>
-                <BuildControls 
-                  addIngredients={this.addIngredientsHandler}
-                  removeIngredients={this.removeIngredientHandler}
-                  disabled={disabledInfo}
-                  price={this.state.totalPrice}
-                  purchasable={this.state.purchasable}
-                  ordered={this.toggleModalHandler}
-                />
+                {burger}
             </Aux>           
         );
     }
