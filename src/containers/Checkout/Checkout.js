@@ -12,10 +12,24 @@ import CheckoutSummary from '../../components/Order/CheckoutSummary/CheckoutSumm
          }
     }
 
+    cancelHandler = () => (
+        this.props.history.goBack()
+    );
+
+    continueHandler = () => (
+        this.props.history.replace('/checkout/contact-data')
+    )
+
     render(){
+        console.log("fromCheckout", this.props);
+        
         return(
             <div>
-                <CheckoutSummary ingredients={this.state.ingredients}/>
+                <CheckoutSummary 
+                    ingredients={this.state.ingredients}
+                    canceled={this.cancelHandler}
+                    continued={this.continueHandler}
+                    />
             </div>
         );
     }

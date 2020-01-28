@@ -92,33 +92,38 @@ class BurgerBuilder extends Component{
 
     purchaseContinueHandler = () => {
         //Updating state to show the spinner
-        this.setState({showLoader: true})
+        // this.setState({showLoader: true})
 
-        const order = {
-            ingredients: this.state.ingredients,
-            price: this.state.totalPrice,
-            customer:{
-                name: "Igor Danilov",
-                address: {
-                    street: 'test street #1',
-                    zipCode: '123545',
-                    country: 'Uzbekistan'
-                },
-                email: 'danilovigor773@gmail.com'
-            },
-            deliveryMethod: 'fastest' 
-        };
+        // const order = {
+        //     ingredients: this.state.ingredients,
+        //     price: this.state.totalPrice,
+        //     customer:{
+        //         name: "Igor Danilov",
+        //         address: {
+        //             street: 'test street #1',
+        //             zipCode: '123545',
+        //             country: 'Uzbekistan'
+        //         },
+        //         email: 'danilovigor773@gmail.com'
+        //     },
+        //     deliveryMethod: 'fastest' 
+        // };
         
-        axios.post('/orders.json', order)
-            .then(response => {
-                this.setState({showLoader: false, purchasing: false});                
-            })
-            .catch(error => {
-                this.setState({showLoader: false, purchasing: false});
-            });
+        // axios.post('/orders.json', order)
+        //     .then(response => {
+        //         this.setState({showLoader: false, purchasing: false});                
+        //     })
+        //     .catch(error => {
+        //         this.setState({showLoader: false, purchasing: false});
+        //     });
+
+        //Here we want when clicking redirect to the checkout page...
+        this.props.history.push('/checkout');
     }   
 
     render(){
+        console.log(this.props);
+        
         const disabledInfo =  _.mapValues({...this.state.ingredients}, (o) => {
             let flag =  o <= 0;
             return flag;
