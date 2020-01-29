@@ -117,12 +117,30 @@ class BurgerBuilder extends Component{
         //         this.setState({showLoader: false, purchasing: false});
         //     });
 
+        //Here we create our query params via encodeURIComponent(str) and then pass them to the search field...
+        const queryParams = [];
+        for(let i in this.state.ingredients){
+            //console.log("i is: ", i);
+            //here we create an array of query params that looks like ['bacon=1', 'salad=1', 'cheese=1', 'meat=1']...
+            queryParams.push(encodeURIComponent(i) + '=' + encodeURIComponent(this.state.ingredients[i]))                
+        }
+        //Here we create a string joined via '&' to pass them as query string through the roter-related props
+        //String looks like 'bacon=1&cheese=1&....'
+        const queryString = queryParams.join('&');
+        //console.log("query string", queryString);
+        //console.log("query params", queryParams);
+        
+
         //Here we want when clicking redirect to the checkout page...
-        this.props.history.push('/checkout');
+        //We also passing our ingredients to checkout for actual burger that the user has built        
+        this.props.history.push({
+            pathname: '/checkout',
+            search: '?'+queryString
+        });
     }   
 
     render(){
-        console.log(this.props);
+        //console.log(this.props);
         
         const disabledInfo =  _.mapValues({...this.state.ingredients}, (o) => {
             let flag =  o <= 0;
