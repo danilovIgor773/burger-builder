@@ -5,29 +5,32 @@ import ContactData from '../ContactData/ContactData';
 
 
  class Checkout extends Component{
-    state={
-         ingredients:{
-             salad: 1,
-             meat: 1,
-             bacon: 1,
-             cheese: 1
+  
+     constructor(props){
+         super(props);
+         
+         const query = new URLSearchParams(this.props.location.search);
+         const ingredients = {};
+         let price = 0;
+         for(let param of query.entries()){
+             //['salad', '1'] - query.entries()
+             if(param[0] === 'price'){
+                 price = param[1];
+             }else{
+                ingredients[param[0]] = +param[1];
+             }
+             
          }
-    }
+         console.log("Constructor ingredients are", ingredients);
+         
+         this.state={
+            ingredients:ingredients, //retrieved data passed via query params assigned directly into state
+            totalPrice: price
+        }         
+     }
+ 
 
-    componentDidMount(){
-        //extracting our ingredients via search params that we passing through the router props
-        const query = new URLSearchParams(this.props.location.search);
-        const ingredients = {};
-        for(let param of query.entries()){
-            //['salad', '1'] - query.entries()
-            console.log("param[0]", param[0])
-            ingredients[param[0]] = +param[1];
-        }
-        //setting state with extracted ingredients
-        this.setState({ingredients: ingredients})
-    }
-
-
+    
     //Handle routing in checkout - goes back to the previous page
     cancelHandler = () => (
         this.props.history.goBack()
@@ -48,7 +51,14 @@ import ContactData from '../ContactData/ContactData';
                     canceled={this.cancelHandler}
                     continued={this.continueHandler}
                     />
-                <Route path={this.props.match.url + '/contact-data'} component={ContactData} />
+                <Route 
+                    path={this.props.match.url + '/contact-data'}
+                    render={(props) => (
+                        <ContactData    
+                            ingredients={this.state.ingredients}
+                            price={this.state.totalPrice}
+                            {...props} />
+                        )} />
             </div>
         );
     }

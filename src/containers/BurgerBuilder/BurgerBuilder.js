@@ -92,30 +92,7 @@ class BurgerBuilder extends Component{
 
     purchaseContinueHandler = () => {
         //Updating state to show the spinner
-        // this.setState({showLoader: true})
-
-        // const order = {
-        //     ingredients: this.state.ingredients,
-        //     price: this.state.totalPrice,
-        //     customer:{
-        //         name: "Igor Danilov",
-        //         address: {
-        //             street: 'test street #1',
-        //             zipCode: '123545',
-        //             country: 'Uzbekistan'
-        //         },
-        //         email: 'danilovigor773@gmail.com'
-        //     },
-        //     deliveryMethod: 'fastest' 
-        // };
-        
-        // axios.post('/orders.json', order)
-        //     .then(response => {
-        //         this.setState({showLoader: false, purchasing: false});                
-        //     })
-        //     .catch(error => {
-        //         this.setState({showLoader: false, purchasing: false});
-        //     });
+      
 
         //Here we create our query params via encodeURIComponent(str) and then pass them to the search field...
         const queryParams = [];
@@ -124,6 +101,7 @@ class BurgerBuilder extends Component{
             //here we create an array of query params that looks like ['bacon=1', 'salad=1', 'cheese=1', 'meat=1']...
             queryParams.push(encodeURIComponent(i) + '=' + encodeURIComponent(this.state.ingredients[i]))                
         }
+        queryParams.push('price=' + this.state.totalPrice);
         //Here we create a string joined via '&' to pass them as query string through the roter-related props
         //String looks like 'bacon=1&cheese=1&....'
         const queryString = queryParams.join('&');
