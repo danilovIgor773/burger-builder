@@ -37,6 +37,19 @@ class ContactData extends Component{
         });
     }
 
+    inputChangedHandler(event, id){
+        const updatedForm = {
+            ...this.state.orderForm //Here we clone our state, however we have nested object, that's why we need to make deep clone 
+        };
+        const formElements = {
+            ...updatedForm[id]
+        };
+
+        formElements.value = event.target.value;
+        updatedForm[id] = formElements;
+        this.setState({orderForm: updatedForm});
+    }
+
     render(){
         const inputElementsConfig = [];
         for(let key in this.state.orderForm){
@@ -51,7 +64,8 @@ class ContactData extends Component{
                     <Input  key={inputConfig.id}
                             elementType={inputConfig.config.elementType}
                             elementConfig={inputConfig.config.elementConfig}
-                            value={inputConfig.config.value} />       
+                            value={inputConfig.config.value} 
+                            changed={(event) => this.inputChangedHandler(event, inputConfig.id)}/>       
                 )}
                 <Button btnType='Success' clicked={this.orderHandler}>ORDER</Button>            
             </form>
