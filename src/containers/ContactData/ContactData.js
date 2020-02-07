@@ -22,8 +22,13 @@ class ContactData extends Component{
               
         this.setState({showLoader: true})
 
+        const updatedFormData = {};
+        for(let identifier in this.state.orderForm){
+            updatedFormData[identifier] = this.state.orderForm[identifier].value;
+        }
+
         const order = {
-            ingredients: this.props.ingredients,
+            orderFormData: updatedFormData,
             price: this.props.price             
         };
         
@@ -59,7 +64,7 @@ class ContactData extends Component{
             })
         }
         let form = (            
-            <form>
+            <form onSubmit={this.orderHandler}>
                 {inputElementsConfig.map(inputConfig =>                     
                     <Input  key={inputConfig.id}
                             elementType={inputConfig.config.elementType}
@@ -67,7 +72,7 @@ class ContactData extends Component{
                             value={inputConfig.config.value} 
                             changed={(event) => this.inputChangedHandler(event, inputConfig.id)}/>       
                 )}
-                <Button btnType='Success' clicked={this.orderHandler}>ORDER</Button>            
+                <Button btnType='Success' >ORDER</Button>            
             </form>
         )
 
