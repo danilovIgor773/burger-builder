@@ -42,6 +42,24 @@ class ContactData extends Component{
         });
     }
 
+    checkValidity = (value, rules) => {
+        let isValid = true;
+
+        if(rules.required){
+            isValid = value.trim() !== '' && isValid;
+        }
+
+        if(rules.minLength){
+            isValid = value.length >= rules.minLength  && isValid;
+        }
+
+        if(rules.maxLength){
+            isValid = value.length <= rules.maxLength  && isValid;
+        }
+
+        return isValid;
+    }
+
     inputChangedHandler(event, id){
         const updatedForm = {
             ...this.state.orderForm //Here we clone our state, however we have nested object, that's why we need to make deep clone 
@@ -51,7 +69,13 @@ class ContactData extends Component{
         };
 
         formElements.value = event.target.value;
+        //console.log('Validation in state is', updatedForm);
+        
+        formElements.valid = this.checkValidity(formElements.value, formElements.validation);
         updatedForm[id] = formElements;
+
+        console.log("Valid in state", formElements.valid);
+        
         this.setState({orderForm: updatedForm});
     }
 

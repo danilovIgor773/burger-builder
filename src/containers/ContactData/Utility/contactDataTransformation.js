@@ -44,7 +44,13 @@ function constructObjByTagName(obj){
                     type: obj.type,
                     placeholder: obj.placeholder
                 },
-                value: obj.value
+                value: obj.value,
+                validation: {
+                    required: obj.required,
+                    minLength: obj.minLength,
+                    maxLength: obj.maxLength
+                },               
+                valid: obj.valid
             }
         }        
     }    
