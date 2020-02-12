@@ -74,7 +74,7 @@ class ContactData extends Component{
         formElements.valid = this.checkValidity(formElements.value, formElements.validation);
         updatedForm[id] = formElements;
 
-        console.log("Valid in state", formElements.valid);
+        //console.log("Valid in state", formElements.valid);
         
         this.setState({orderForm: updatedForm});
     }
@@ -94,6 +94,8 @@ class ContactData extends Component{
                             elementType={inputConfig.config.elementType}
                             elementConfig={inputConfig.config.elementConfig}
                             value={inputConfig.config.value} 
+                            invalid={!inputConfig.config.valid}
+                            shouldValidate={inputConfig.config.validation}
                             changed={(event) => this.inputChangedHandler(event, inputConfig.id)}/>       
                 )}
                 <Button btnType='Success' >ORDER</Button>            
@@ -103,7 +105,7 @@ class ContactData extends Component{
         if(this.state.showLoader){
             form = <Spinner />;
         }
-        console.log("This.state.orderForm", this.state.orderForm);
+        //console.log("This.state.orderForm", this.state.orderForm);
         
                
         return(
