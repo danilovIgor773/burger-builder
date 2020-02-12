@@ -6,7 +6,8 @@ export const metaDataConfig = [
         value: '',
         placeholder: 'Your Name',
         required: true,
-        valid: false
+        valid: false,
+        touched: false
     },
     {
         fieldName: 'street',
@@ -15,7 +16,8 @@ export const metaDataConfig = [
         value: '',
         placeholder: 'Street',
         required: true,       
-        valid: false
+        valid: false,
+        touched: false
     },
     {
         fieldName: 'zipCode',
@@ -26,7 +28,8 @@ export const metaDataConfig = [
         required: true,
         minLength: 5,
         maxLength: 5,       
-        valid: false
+        valid: false,
+        touched: false
     },
     {
         fieldName: 'country',
@@ -35,7 +38,8 @@ export const metaDataConfig = [
         value: '',
         placeholder: 'Country',
         required: true,       
-        valid: false
+        valid: false,
+        touched: false
     },
     {
         fieldName: 'email',
@@ -44,7 +48,8 @@ export const metaDataConfig = [
         value: '',
         placeholder: 'Your E-mail',
         required: true,       
-        valid: false
+        valid: false,
+        touched: false
     },
     {
         fieldName: 'deliveryMethod',

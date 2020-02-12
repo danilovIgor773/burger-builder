@@ -72,6 +72,7 @@ class ContactData extends Component{
         //console.log('Validation in state is', updatedForm);
         
         formElements.valid = this.checkValidity(formElements.value, formElements.validation);
+        formElements.touched = true;
         updatedForm[id] = formElements;
 
         //console.log("Valid in state", formElements.valid);
@@ -96,6 +97,7 @@ class ContactData extends Component{
                             value={inputConfig.config.value} 
                             invalid={!inputConfig.config.valid}
                             shouldValidate={inputConfig.config.validation}
+                            touched={inputConfig.config.touched}
                             changed={(event) => this.inputChangedHandler(event, inputConfig.id)}/>       
                 )}
                 <Button btnType='Success' >ORDER</Button>            

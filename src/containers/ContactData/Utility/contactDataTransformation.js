@@ -50,7 +50,8 @@ function constructObjByTagName(obj){
                     minLength: obj.minLength,
                     maxLength: obj.maxLength
                 },               
-                valid: obj.valid
+                valid: obj.valid,
+                touched: obj.touched
             }
         }        
     }    
