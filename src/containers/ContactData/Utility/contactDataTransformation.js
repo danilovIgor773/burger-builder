@@ -33,7 +33,9 @@ function constructObjByTagName(obj){
                         ...obj.options
                     ]
                 },
-                value: obj.value
+                value: obj.value,
+                validation:{},
+                valid: true,
             }
         }
     }else{

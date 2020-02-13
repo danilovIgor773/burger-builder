@@ -13,6 +13,7 @@ class ContactData extends Component{
         super(props);
         this.state = {
             orderForm: transformData(configData),
+            formIsValid: false,
             showLoader: false,
         }
     }
@@ -73,11 +74,15 @@ class ContactData extends Component{
         
         formElements.valid = this.checkValidity(formElements.value, formElements.validation);
         formElements.touched = true;
+        let formIsValid = true;
+        for(let inputId in updatedForm){
+            formIsValid = updatedForm[inputId].valid && formIsValid;
+        }
         updatedForm[id] = formElements;
 
         //console.log("Valid in state", formElements.valid);
         
-        this.setState({orderForm: updatedForm});
+        this.setState({orderForm: updatedForm, formIsValid: formIsValid});
     }
 
     render(){
@@ -100,7 +105,7 @@ class ContactData extends Component{
                             touched={inputConfig.config.touched}
                             changed={(event) => this.inputChangedHandler(event, inputConfig.id)}/>       
                 )}
-                <Button btnType='Success' >ORDER</Button>            
+                <Button btnType='Success' disabled={!this.state.formIsValid}>ORDER</Button>            
             </form>
         )
 
