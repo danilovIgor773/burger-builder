@@ -14,13 +14,6 @@ import withErrorHandler from '../../hoc/withErrorHandler/withErrorHandler';
 import * as actionTypes from '../../store/actions';
 
 
-const INGREDIENT_PRICES = {
-    salad: 0.5,
-    cheese: 0.4,
-    meat: 0.8,
-    bacon: 0.3
-};
-
 class BurgerBuilder extends Component{
 
     state = {
@@ -50,39 +43,8 @@ class BurgerBuilder extends Component{
             }, 0)
 
             this.setState({purchasable: sum > 0})
-    }
-
-    addIngredientsHandler = (type) => {
-        const oldCount = this.state.ingredients[type];
-        const updatedCount = oldCount + 1;
-        const updatedIngredients = {
-            ...this.state.ingredients
-        };
-        updatedIngredients[type] = updatedCount;
-        const addedPrice = INGREDIENT_PRICES[type];
-        const oldPrice = this.state.totalPrice;
-        const newPrice = addedPrice + oldPrice;
-        //console.log("new price after adding ingredient ", newPrice);
-        
-        this.setState({ingredients: updatedIngredients, totalPrice: newPrice});
-        this.updatePurchaseButton(updatedIngredients);         
-    }
-
-    removeIngredientHandler = (type) => {
-        const currentCount = this.state.ingredients[type];
-        const updatedCount = currentCount <= 0 ? 0 : currentCount - 1;
-        const updatedIngredients = {
-            ...this.state.ingredients
-        };
-
-        updatedIngredients[type] = updatedCount;
-        const addedPrice = INGREDIENT_PRICES[type];
-        const oldPrice = this.state.totalPrice;
-        const newPrice = oldPrice - addedPrice;
-
-        this.setState({ingredients: updatedIngredients, totalPrice: newPrice})
-        this.updatePurchaseButton(updatedIngredients);
-    }
+    }  
+  
 
     toggleModalHandler = () => {
         this.setState({purchasing: true});
@@ -103,7 +65,7 @@ class BurgerBuilder extends Component{
             //here we create an array of query params that looks like ['bacon=1', 'salad=1', 'cheese=1', 'meat=1']...
             queryParams.push(encodeURIComponent(i) + '=' + encodeURIComponent(this.props.ingredients[i]))                
         }
-        queryParams.push('price=' + this.state.totalPrice);
+        queryParams.push('price=' + this.props.price);
         //Here we create a string joined via '&' to pass them as query string through the roter-related props
         //String looks like 'bacon=1&cheese=1&....'
         const queryString = queryParams.join('&');
@@ -141,7 +103,7 @@ class BurgerBuilder extends Component{
                             addIngredients={this.props.onAddedIngredient}
                             removeIngredients={this.props.onRemovedIngredient}
                             disabled={disabledInfo}
-                            price={this.state.totalPrice}
+                            price={this.props.price}
                             purchasable={this.state.purchasable}
                             ordered={this.toggleModalHandler}
                     />
@@ -152,7 +114,7 @@ class BurgerBuilder extends Component{
                             ingredients={this.props.ingredients}
                             purchaseCancel={this.purchaseCancelHandler}
                             purchaseContinue={this.purchaseContinueHandler}
-                            price={this.state.totalPrice}
+                            price={this.props.price}
                             />;
         }
         
@@ -174,7 +136,8 @@ class BurgerBuilder extends Component{
 
 const mapStateToProps = state => {
     return {
-        ingredients: state.ingredients
+        ingredients: state.ingredients,
+        price: state.totalPrice
     }
 }
 
