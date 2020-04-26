@@ -11,7 +11,7 @@ import Modal from '../../components/UI/Modal/Modal';
 import OrderSummary from '../../components/Burger/OrderSummary/OrderSummary';
 import Spinner from '../../components/UI/Spinner/Spinner';
 import withErrorHandler from '../../hoc/withErrorHandler/withErrorHandler';
-import * as actionTypes from '../../store/actions';
+import * as actionCreators from '../../store/actions/index';
 
 
 class BurgerBuilder extends Component{
@@ -53,26 +53,6 @@ class BurgerBuilder extends Component{
     }
 
     purchaseContinueHandler = () => {
-        //Updating state to show the spinner
-      
-
-        //Here we create our query params via encodeURIComponent(str) and then pass them to the search field...
-        // const queryParams = [];
-        // for(let i in this.props.ingredients){
-        //     //console.log("i is: ", i);
-        //     //here we create an array of query params that looks like ['bacon=1', 'salad=1', 'cheese=1', 'meat=1']...
-        //     queryParams.push(encodeURIComponent(i) + '=' + encodeURIComponent(this.props.ingredients[i]))                
-        // }
-        // queryParams.push('price=' + this.props.price);
-        // //Here we create a string joined via '&' to pass them as query string through the roter-related props
-        // //String looks like 'bacon=1&cheese=1&....'
-        // const queryString = queryParams.join('&');
-        //console.log("query string", queryString);
-        //console.log("query params", queryParams);
-        
-
-        //Here we want when clicking redirect to the checkout page...
-        //We also passing our ingredients to checkout for actual burger that the user has built        
         this.props.history.push({ pathname: '/checkout' });
     }   
 
@@ -138,8 +118,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return{
-        onAddedIngredient: (ingName) => dispatch({type: actionTypes.ADD_INGREDIENT, ingredientName: ingName}),
-        onRemovedIngredient: (ingName) => dispatch({type: actionTypes.REMOVE_INGREDIENT, ingredientName: ingName})
+        onAddedIngredient: (ingName) => dispatch(actionCreators.addIngredient(ingName)),
+        onRemovedIngredient: (ingName) => dispatch(actionCreators.removeIngredient(ingName))
     }
 }
 
