@@ -18,19 +18,12 @@ class BurgerBuilder extends Component{
 
     state = {
         purchasing: false,
-        showLoader: false,
-        error: false
     }
 
     componentDidMount(){
         //Retrieving data from server and updating state for our ingredients...
-        // axios.get('https://burger-builder-f92a7.firebaseio.com/ingredients.json')
-        //     .then(response => {
-        //         this.setState({ingredients: response.data})
-        //     })
-        //     .catch(error => {
-        //         this.setState({error: true})
-        //     })
+        this.props.onInitIngredients();
+        
     }
 
     updatePurchaseButton (ingredients){
@@ -65,7 +58,7 @@ class BurgerBuilder extends Component{
         });
 
         //Defaults values before data will be retrieved from server...
-        let burger = (this.state.error ? 
+        let burger = (this.props.error ? 
                     <h3 style={{textAlign: 'center', margin: '10px'}}>Service is unavailable! Please try again later!</h3> 
                     : <Spinner />);
         let orderSummary =  null;
@@ -92,12 +85,7 @@ class BurgerBuilder extends Component{
                             price={this.props.price}
                             />;
         }
-        
-        if(this.state.showLoader){
-            //add spinner...
-            orderSummary = <Spinner />;
-        }
-                            
+                                  
         return(
             <Aux>                
                 <Modal show={this.state.purchasing} modalClosed={this.purchaseCancelHandler}>
@@ -111,15 +99,17 @@ class BurgerBuilder extends Component{
 
 const mapStateToProps = state => {
     return {
-        ingredients: state.ingredients,
-        price: state.totalPrice
+        ingredients: state.burgerBuilder.ingredients,
+        price: state.burgerBuilder.totalPrice,
+        error: state.burgerBuilder.error
     }
 }
 
 const mapDispatchToProps = dispatch => {
     return{
         onAddedIngredient: (ingName) => dispatch(actionCreators.addIngredient(ingName)),
-        onRemovedIngredient: (ingName) => dispatch(actionCreators.removeIngredient(ingName))
+        onRemovedIngredient: (ingName) => dispatch(actionCreators.removeIngredient(ingName)),
+        onInitIngredients: () => dispatch(actionCreators.fetchIngredients())
     }
 }
 

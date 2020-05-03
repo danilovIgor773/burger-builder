@@ -38,8 +38,8 @@ import {connect} from 'react-redux';
 
  const mapStateToProps = state => {
      return {
-         ingredients: state.ingredients,
-         price: state.totalPrice
+         ingredients: state.burgerBuilder.ingredients,
+         price: state.burgerBuilder.totalPrice
      }
  }
 
