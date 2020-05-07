@@ -1,6 +1,5 @@
 import * as actionTypes from './actionTypes';
 import axios from '../../axios-orders';
-import {notify} from 'reapop';
 
 export const addIngredient = (name) => {
     return {

@@ -2,27 +2,28 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import classes from './ContactData.css';
 import Button from '../../components/UI/Button/Button';
-import axios from '../../axios-orders';
 import Spinner from '../../components/UI/Spinner/Spinner';
 import Input from '../../components/UI/Input/Input';
 
+import withErrorHandler from '../../hoc/withErrorHandler/withErrorHandler';
+import axios from '../../axios-orders';
+
 import transformData from '../ContactData/Utility/contactDataTransformation';
 import {metaDataConfig as configData} from '../ContactData/Constants/contactInfoCfg';
+
+import *  as actionCreators from '../../store/actions/index';
 
 class ContactData extends Component{
     constructor(props){
         super(props);
         this.state = {
             orderForm: transformData(configData),
-            formIsValid: false,
-            showLoader: false,
+            formIsValid: false
         }
     }
 
     orderHandler = (event) => {
         event.preventDefault();
-              
-        this.setState({showLoader: true})
 
         const updatedFormData = {};
         for(let identifier in this.state.orderForm){
@@ -34,15 +35,8 @@ class ContactData extends Component{
             price: this.props.price,
             ingredients: this.props.ingredients             
         };
-        
-        axios.post('/orders.json', order)
-            .then(response => {
-                this.setState({showLoader: false});
-                this.props.history.push('/'); //it is available because router props are passed within Route component via render attr.                 
-            })
-            .catch(error => {
-                this.setState({showLoader: false});
-        });
+
+        this.props.onSubmitOrder(order);
     }
 
     checkValidity = (value, rules) => {
@@ -111,7 +105,7 @@ class ContactData extends Component{
             </form>
         )
 
-        if(this.state.showLoader){
+        if(this.props.loading){
             form = <Spinner />;
         }
         //console.log("This.state.orderForm", this.state.orderForm);
@@ -129,9 +123,16 @@ class ContactData extends Component{
 
 const mapStateToProps = state => {
     return{
-        ingredients: state.ingredients,
-        price: state.totalPrice
+        ingredients: state.burgerBuilder.ingredients,
+        price: state.burgerBuilder.totalPrice,
+        loading: state.orders.loading
     }
 }
 
-export default connect(mapStateToProps)(ContactData);
+const mapDispatchToProps = dispatch => {
+    return {
+        onSubmitOrder: (orderData) => dispatch(actionCreators.purchaseBurger(orderData))
+    }
+} 
+
+export default connect(mapStateToProps, mapDispatchToProps)(withErrorHandler(ContactData, axios));
