@@ -5,6 +5,7 @@ import Layout from '../src/hoc/Layout/Layout';
 import BurgerBuilder from './containers/BurgerBuilder/BurgerBuilder'; 
 import Checkout from '../src/containers/Checkout/Checkout';
 import Orders from '../src/containers/Orders/Orders';
+import FormikAuth from './containers/Auth/Auth';
 //import NotificationsSystem from 'reapop';
 //import theme from 'reapop-theme-wybo';
 
@@ -18,6 +19,7 @@ class App extends Component{
           <Switch>            
             <Route path='/checkout' component={Checkout}/>
             <Route path='/orders' component={Orders}/>
+            <Route path='/authenticate' component={FormikAuth}/>
             <Route path='/' exact component={BurgerBuilder}/>
           </Switch>          
         </Layout>

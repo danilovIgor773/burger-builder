@@ -2,7 +2,7 @@ import React from 'react';
 import classes from '../Button/Button.css';
 
 const button = (props) => (
-    <button className={[classes.Button, classes[props.btnType]].join(' ')} onClick={props.clicked} disabled={props.disabled}>
+    <button type={props.type ? props.type : "button"} className={[classes.Button, classes[props.btnType]].join(' ')} onClick={props.clicked} disabled={props.disabled}>
         {props.children}
     </button>
 );

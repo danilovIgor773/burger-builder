@@ -18,6 +18,7 @@
     "babel-preset-react-app": "^9.1.0",
     "camelcase": "^5.3.1",
     "case-sensitive-paths-webpack-plugin": "2.2.0",
+    "classnames": "^2.2.6",
     "css-loader": "3.2.0",
     "dotenv": "8.2.0",
     "dotenv-expand": "5.1.0",
@@ -30,6 +31,7 @@
     "eslint-plugin-react": "7.16.0",
     "eslint-plugin-react-hooks": "^1.6.1",
     "file-loader": "4.3.0",
+    "formik": "^2.1.5",
     "fs-extra": "^8.1.0",
     "html-webpack-plugin": "4.0.0-beta.5",
     "identity-obj-proxy": "3.0.0",
@@ -67,7 +69,8 @@
     "webpack": "4.41.2",
     "webpack-dev-server": "3.9.0",
     "webpack-manifest-plugin": "2.2.0",
-    "workbox-webpack-plugin": "4.3.1"
+    "workbox-webpack-plugin": "4.3.1",
+    "yup": "^0.29.3"
   },
   "scripts": {
     "start": "node scripts/start.js",

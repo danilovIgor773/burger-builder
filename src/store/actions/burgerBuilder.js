@@ -34,9 +34,6 @@ export const fetchIngredients = () => {
             .then(response => {
                 dispatch(initIngredients(response.data));                
             })
-            // .then(response => {
-            //     dispatch(notify({message: "Ingredients are fetched", status: 'success'}));
-            // })
             .catch(error => {
                 dispatch(fetchIngredientsFailed());
             })

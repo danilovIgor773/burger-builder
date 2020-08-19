@@ -1,13 +1,16 @@
-.Input{
-    width: 100%;
-    padding: 10px;
-    box-sizing: border-box;    
+.Auth{
+    margin: 20px auto;
+    width: 80%;
+    text-align: center;
+    border: 1px solid #eee;
+    box-sizing: border-box;
+    box-shadow: 0 2px 3px #ccc;
 }
 
-.Label{
-    font-weight: bold;
-    display: block;
-    margin-bottom: 8px;
+@media(min-wdth: 600px){
+    .Auth{
+        width: 500px;
+    }
 }
 
 .InputElement{
@@ -31,3 +34,8 @@
     border: 1px solid red;
     background-color: #FDA49A;
 }
+
+.ValidationError {
+    color: red;
+    margin: 5px 0;
+} 
