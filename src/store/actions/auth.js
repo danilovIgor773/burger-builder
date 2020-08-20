@@ -3,6 +3,7 @@ import axios from 'axios';
 
 const AUTH_URL = 'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=';
 const API_KEY = 'AIzaSyCXD8Mf-fq69u2hZfd_w5qDclkceDMiUQA';
+const SIGN_IN_URL = 'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key='
 
 const composeURL = (authUrl, apiKey) => {
     return `${authUrl}${apiKey}`;
@@ -28,8 +29,9 @@ export const authFail = (error) => {
     }
 };
 
-export const auth = (email, password) => {
-    const url = composeURL(AUTH_URL, API_KEY);    
+export const auth = (email, password, signUpFlag) => {
+    
+    let url = composeURL(AUTH_URL, API_KEY);    
     return dispatch => {
         dispatch(authStart());
         const authData = {
@@ -37,6 +39,9 @@ export const auth = (email, password) => {
             password,
             returnSecureToken: true
         };
+        if(!signUpFlag){            
+            url = composeURL(SIGN_IN_URL, API_KEY);            
+        }
         axios.post(url, authData)
             .then(response => {
                 console.log('[AUTH_RESP]', response.data);

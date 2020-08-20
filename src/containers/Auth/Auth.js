@@ -16,9 +16,23 @@ import * as actions from '../../store/actions/index';
 
 
 class Auth extends Component {
+    state = {
+        isSignUp: false
+    };
+
+    switchAuthMode = () => {
+        this.setState(prevState => {
+            return {
+                isSignUp: !prevState.isSignUp
+            }
+        })
+    }
 
     render(){
         const {errors, touched} = this.props;
+        let {isSignUp} = this.state;
+        this.props.values.signUpFlag = isSignUp;
+        
         const inputClasses = [classes.InputElement];
         const form = FORM_INPUTS_DATA.map(inputData => {
 
@@ -48,6 +62,12 @@ class Auth extends Component {
                     {form}
                     <Button type="submit" btnType="Success">SUBMIT</Button>
                 </Form>
+                <Button 
+                    btnType="Danger"
+                    clicked={this.switchAuthMode}    
+                >
+                        SWITCH TO {this.state.isSignUp ? "SIGNIN" : "SIGNUP"}
+                    </Button>                
             </div>
         )
     }
@@ -58,23 +78,24 @@ const FormikAuth = withFormik({
         return {
             email: email || '',
             password: password || '',
+            signUpFlag: false
         }
     }, 
     validationSchema: Yup.object().shape({
         email: Yup.string().email(EMAIL_NOT_VALID).required(EMAIL_REQUIRED),
         password: Yup.string().min(6, PASSWORD_NOT_VALID).required(PASSWORD_REQUIRED)
     }),
-    handleSubmit(values, { props, setSubmitting }) {
-        console.log("[Submit]", values);
-        const {email, password } = values;
-        props.onAuth(email, password);
+    handleSubmit(values, { props, setSubmitting}) {
+        const {email, password, signUpFlag } = values;
+        console.log("[Submit], sign-up flag", signUpFlag);
+        props.onAuth(email, password, signUpFlag);
         setSubmitting(false);
     }
 })(Auth);
 
 const mapDispatchToProps = dispatch => {
     return {
-        onAuth: (email, password) => dispatch(actions.auth(email, password))
+        onAuth: (email, password, signUpFlag) => dispatch(actions.auth(email, password, signUpFlag))
     }
 }
 
