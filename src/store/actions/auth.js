@@ -45,13 +45,12 @@ export const auth = (email, password, signUpFlag) => {
         }
         axios.post(url, authData)
             .then(response => {
-                console.log('[AUTH_RESP]', response.data);
                 const {idToken, localId} = response.data;
                 dispatch(authSuccess(idToken, localId));                
             })
             .catch(err => {
-                console.log('[AUTH_RESP_ERR]', err);
-                dispatch(authFail(err));                
+                const {message} = err.response.data.error;                
+                dispatch(authFail(message));                
             })
     }
 }

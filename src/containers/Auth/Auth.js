@@ -8,9 +8,11 @@ import {
     EMAIL_NOT_VALID,
     EMAIL_REQUIRED,
     PASSWORD_NOT_VALID,
-    PASSWORD_REQUIRED
+    PASSWORD_REQUIRED,
+    getErrorTextByMessage
 } from './constants';
 import InputWrapper from './InputWrapper/InputWrapper';
+import Spinner from '../../components/UI/Spinner/Spinner';
 import * as Yup from 'yup';
 import * as actions from '../../store/actions/index';
 
@@ -29,12 +31,17 @@ class Auth extends Component {
     }
 
     render(){
-        const {errors, touched} = this.props;
+        const {errors, touched, loading, error} = this.props;
         let {isSignUp} = this.state;
         this.props.values.signUpFlag = isSignUp;
+        let errorMessage = null;
+
+        if(error){
+            errorMessage = <p className={classes.ValidationError}>{getErrorTextByMessage(error)}</p>
+        }
         
         const inputClasses = [classes.InputElement];
-        const form = FORM_INPUTS_DATA.map(inputData => {
+        let form = FORM_INPUTS_DATA.map(inputData => {
 
             touched[inputData.type] &&
             errors[inputData.type] &&
@@ -55,9 +62,13 @@ class Auth extends Component {
                     />
                 </InputWrapper>
             )
-        })
+        });
+        if(loading) {
+            form = <Spinner />
+        }
         return (
             <div className={classes.Auth}>
+                {errorMessage}
                 <Form >
                     {form}
                     <Button type="submit" btnType="Success">SUBMIT</Button>
@@ -87,11 +98,17 @@ const FormikAuth = withFormik({
     }),
     handleSubmit(values, { props, setSubmitting}) {
         const {email, password, signUpFlag } = values;
-        console.log("[Submit], sign-up flag", signUpFlag);
         props.onAuth(email, password, signUpFlag);
         setSubmitting(false);
     }
 })(Auth);
+
+const mapStateToProps = state => {
+    return {
+        loading: state.auth.loading,
+        error: state.auth.error
+    }
+}
 
 const mapDispatchToProps = dispatch => {
     return {
@@ -99,4 +116,4 @@ const mapDispatchToProps = dispatch => {
     }
 }
 
-export default connect(null, mapDispatchToProps)(FormikAuth);
+export default connect(mapStateToProps, mapDispatchToProps)(FormikAuth);
