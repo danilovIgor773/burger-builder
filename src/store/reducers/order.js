@@ -43,8 +43,8 @@ const fetchOrdersSuccess = (state, action) => {
     });
 }
 
-const fetchOrdersFailed = (state) => {
-    updateStateObject(state, { loading: false });
+const fetchOrdersFailed = (state, action) => {
+    return updateStateObject(state, { loading: false });
 }
 
 
@@ -56,7 +56,7 @@ const reducer = (state = initialState, action) => {
         case actionTypes.PURCHASE_BURGER_FAIL: return purchaseBurgerFail(state);
         case actionTypes.FETCH_ORDERS_START: return fetchOrdersStart(state);
         case actionTypes.FETCH_ORDERS_SUCCESS: return fetchOrdersSuccess(state, action);
-        case actionTypes.FETCH_ORDERS_FAILED: return fetchOrdersFailed(state);
+        case actionTypes.FETCH_ORDERS_FAILED: return fetchOrdersFailed(state, action);
         default: return state;            
     }
 };

@@ -36,7 +36,7 @@ class ContactData extends Component{
             ingredients: this.props.ingredients             
         };
 
-        this.props.onSubmitOrder(order);
+        this.props.onSubmitOrder(order, this.props.token);
     }
 
     checkValidity = (value, rules) => {
@@ -90,7 +90,7 @@ class ContactData extends Component{
             })
         }
         let form = (            
-            <form onSubmit={this.orderHandler}>
+            <form>
                 {inputElementsConfig.map(inputConfig =>                     
                     <Input  key={inputConfig.id}
                             elementType={inputConfig.config.elementType}
@@ -101,15 +101,13 @@ class ContactData extends Component{
                             touched={inputConfig.config.touched}
                             changed={(event) => this.inputChangedHandler(event, inputConfig.id)}/>       
                 )}
-                <Button btnType='Success' disabled={!this.state.formIsValid}>ORDER</Button>            
+                <Button btnType='Success' clicked={this.orderHandler} disabled={!this.state.formIsValid}>ORDER</Button>            
             </form>
         )
 
         if(this.props.loading){
             form = <Spinner />;
         }
-        //console.log("This.state.orderForm", this.state.orderForm);
-        
                
         return(
             <div className={classes.ContactData}>
@@ -125,13 +123,14 @@ const mapStateToProps = state => {
     return{
         ingredients: state.burgerBuilder.ingredients,
         price: state.burgerBuilder.totalPrice,
-        loading: state.orders.loading
+        loading: state.orders.loading,
+        token: state.auth.token
     }
 }
 
 const mapDispatchToProps = dispatch => {
     return {
-        onSubmitOrder: (orderData) => dispatch(actionCreators.purchaseBurger(orderData))
+        onSubmitOrder: (orderData, token) => dispatch(actionCreators.purchaseBurger(orderData, token))
     }
 } 
 

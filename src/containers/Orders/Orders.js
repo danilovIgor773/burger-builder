@@ -6,13 +6,9 @@ import axios from '../../axios-orders';
 import * as actionCreators from '../../store/actions/index';
 
 class Orders extends Component{
-    state={
-        orders:[],
-        loading: true
-    }
-
+ 
     componentDidMount(){
-       this.props.onFetchOrders();
+       this.props.onFetchOrders(this.props.token);
     }
 
     render(){
@@ -36,13 +32,14 @@ class Orders extends Component{
 
 const mapStateToProps = state => {
     return {
-        orders: state.orders.orders
+        orders: state.orders.orders,
+        token: state.auth.token
     }
 }
 
 const mapDispatchToProps = dispatch => {
     return {
-        onFetchOrders: () => dispatch(actionCreators.fetchOrders())
+        onFetchOrders: (token) => dispatch(actionCreators.fetchOrders(token))
     }
 }
 
