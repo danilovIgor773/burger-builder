@@ -1,23 +1,35 @@
 import React from 'react';
 import classes from '../NavigationItems/NavigationItems.css';
 import NavigationItem from '../../Navigation/NavigationItems/NavigationItem/NavigationItem';
+import {useSelector} from 'react-redux'; 
 
-const navigationItems = () => (
-    <ul className={classes.NavigationItems}>
-        <NavigationItem
-            exact 
-            link='/'>
-        Burger Builder
-        </NavigationItem>
-        <NavigationItem 
-            link='/orders'>
-        Orders
-        </NavigationItem>
-        <NavigationItem 
-            link='/authenticate'>
-        Sign In
-        </NavigationItem>
-    </ul>
-);
+const navigationItems = () => {
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    const isAuthenticated = useSelector(state => state.auth.token);
+    
+    return (
+        <ul className={classes.NavigationItems}>
+            <NavigationItem
+                exact 
+                link='/'>
+                Burger Builder
+            </NavigationItem>
+            <NavigationItem 
+                link='/orders'>
+                Orders
+            </NavigationItem>
+            {isAuthenticated ?
+                <NavigationItem 
+                    link='/logout'>
+                    Logout
+                </NavigationItem> : 
+                <NavigationItem 
+                    link='/authenticate'>
+                    Authorize
+                </NavigationItem>
+            }
+        </ul>    
+    );            
+};
 
 export default navigationItems;
