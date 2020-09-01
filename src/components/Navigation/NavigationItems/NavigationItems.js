@@ -14,10 +14,12 @@ const navigationItems = () => {
                 link='/'>
                 Burger Builder
             </NavigationItem>
-            <NavigationItem 
-                link='/orders'>
-                Orders
-            </NavigationItem>
+            {isAuthenticated ? <NavigationItem 
+                    link='/orders'>
+                    Orders
+                </NavigationItem> :
+                null
+            }
             {isAuthenticated ?
                 <NavigationItem 
                     link='/logout'>
