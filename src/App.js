@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
-import {Route, Switch} from 'react-router-dom';
+import {Route, Switch, withRouter} from 'react-router-dom';
+import {connect} from 'react-redux';
 //import styles from './App.css';
 import Layout from '../src/hoc/Layout/Layout';
 import BurgerBuilder from './containers/BurgerBuilder/BurgerBuilder'; 
@@ -7,10 +8,15 @@ import Checkout from '../src/containers/Checkout/Checkout';
 import Orders from '../src/containers/Orders/Orders';
 import FormikAuth from './containers/Auth/Auth';
 import Logout from './containers/Auth/Logout/Logout';
+import * as actions from './store/actions/index';
 //import NotificationsSystem from 'reapop';
 //import theme from 'reapop-theme-wybo';
 
 class App extends Component{
+
+  componentDidMount(){
+    this.props.onTryAutoSignUp();
+  }
   
   render(){
     return (
@@ -30,5 +36,10 @@ class App extends Component{
   }
 }
 
+const mapDispatchToProps = dispatch => {
+  return {
+    onTryAutoSignUp: () => dispatch(actions.authCheckState())
+  }
+}
 
-export default App;
+export default withRouter(connect(null, mapDispatchToProps)(App));
