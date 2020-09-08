@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import { Redirect } from 'react-router-dom';
 import {withFormik, Form, Field} from 'formik';
 import {connect} from 'react-redux';
 import Button from '../../components/UI/Button/Button';
@@ -22,6 +23,12 @@ class Auth extends Component {
         isSignUp: false
     };
 
+    componentDidMount(){
+        if(!this.props.buildingBurger && this.props.authRedirect){
+            this.props.onSetAuthRedirectPath();
+        }
+    }
+
     switchAuthMode = () => {
         this.setState(prevState => {
             return {
@@ -35,6 +42,7 @@ class Auth extends Component {
         let {isSignUp} = this.state;
         this.props.values.signUpFlag = isSignUp;
         let errorMessage = null;
+        let authRedirect = null;
 
         if(error){
             errorMessage = <p className={classes.ValidationError}>{getErrorTextByMessage(error)}</p>
@@ -66,8 +74,12 @@ class Auth extends Component {
         if(loading) {
             form = <Spinner />
         }
+        if(this.props.isAuthenticated){
+            authRedirect = <Redirect to={this.props.authRedirect} />
+        }
         return (
             <div className={classes.Auth}>
+                {authRedirect}
                 {errorMessage}
                 <Form >
                     {form}
@@ -106,13 +118,17 @@ const FormikAuth = withFormik({
 const mapStateToProps = state => {
     return {
         loading: state.auth.loading,
-        error: state.auth.error
+        error: state.auth.error,
+        isAuthenticated: state.auth.token !== null,
+        buildingBurger: state.burgerBuilder.building,
+        authRedirect: state.auth.authRedirectPath
     }
 }
 
 const mapDispatchToProps = dispatch => {
     return {
-        onAuth: (email, password, signUpFlag) => dispatch(actions.auth(email, password, signUpFlag))
+        onAuth: (email, password, signUpFlag) => dispatch(actions.auth(email, password, signUpFlag)),
+        onSetAuthRedirectPath: () => dispatch(actions.setAuthRedirectPath('/'))
     }
 }
 

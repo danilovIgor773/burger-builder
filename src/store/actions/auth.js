@@ -69,3 +69,10 @@ export const auth = (email, password, signUpFlag) => {
             })
     }
 }
+
+export const setAuthRedirectPath = (path) => {
+    return {
+        type: actionTypes.SET_REDIRECT_PATH,
+        path
+    }
+}
