@@ -64,9 +64,11 @@ export const auth = (email, password, signUpFlag) => {
             .then(response => {
                 const {idToken, localId, expiresIn} = response.data;
                 const expirationDate = new Date(new Date().getTime() + expiresIn * 1000);
+                //Putting data into localStorage
                 localStorage.setItem('token', idToken);
                 localStorage.setItem('expirationDate', expirationDate);
                 localStorage.setItem('userId', localId);
+                //----------------------------
                 dispatch(authSuccess(idToken, localId));
                 dispatch(checkAuthTimeout(expiresIn));                
             })
